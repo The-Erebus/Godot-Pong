@@ -1,0 +1,118 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scenes/paddle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Shaders/chromatic_aberration.tres" type="Shader" id=4]
+[ext_resource path="res://Assets/Sprites/Line.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/numbers.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Score_display.gd" type="Script" id=7]
+[ext_resource path="res://Assets/pong_theme.tres" type="Theme" id=8]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=9]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 91, 4 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 4 )
+shader_param/ca_strenght = 2.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 9 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_left = -10.0
+margin_top = -8.0
+margin_right = 172.0
+margin_bottom = 100.0
+color = Color( 0.0352941, 0.027451, 0.027451, 1 )
+
+[node name="main" type="Node2D" parent="."]
+
+[node name="Score_display" type="Node2D" parent="main"]
+script = ExtResource( 7 )
+
+[node name="Score_p1" type="Sprite" parent="main/Score_display"]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+position = Vector2( 68, 12 )
+texture = ExtResource( 6 )
+hframes = 3
+vframes = 4
+
+[node name="Score_p2" type="Sprite" parent="main/Score_display"]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+position = Vector2( 94, 12 )
+texture = ExtResource( 6 )
+hframes = 3
+vframes = 4
+
+[node name="Player_1" parent="main" instance=ExtResource( 1 )]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+
+[node name="Player_2" parent="main" instance=ExtResource( 1 )]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+position = Vector2( 148, 45 )
+player_type = 2
+
+[node name="ball" parent="main" instance=ExtResource( 3 )]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+
+[node name="barrier_up" type="StaticBody2D" parent="main"]
+position = Vector2( -10, -7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="main/barrier_up"]
+position = Vector2( 91, 3 )
+shape = SubResource( 3 )
+
+[node name="barrier_up2" type="StaticBody2D" parent="main"]
+position = Vector2( -10, 91 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="main/barrier_up2"]
+position = Vector2( 91, 3 )
+shape = SubResource( 3 )
+
+[node name="Division" type="TextureRect" parent="main"]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+margin_left = 80.0
+margin_top = -18.0
+margin_right = 83.0
+margin_bottom = 115.0
+texture = ExtResource( 5 )
+stretch_mode = 2
+
+[node name="win_screen" type="Node2D" parent="."]
+visible = false
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+
+[node name="Player_wins" type="Label" parent="win_screen"]
+margin_left = 13.0
+margin_top = 20.0
+margin_right = 147.0
+margin_bottom = 44.0
+theme = ExtResource( 8 )
+text = "Player 1 Wins"
+align = 1
+valign = 1
+
+[node name="Press_to_continue" type="Label" parent="win_screen"]
+margin_left = 42.0
+margin_top = 49.0
+margin_right = 306.0
+margin_bottom = 73.0
+rect_scale = Vector2( 0.3, 0.3 )
+theme = ExtResource( 8 )
+text = "Press Any key to continue"
+align = 1
+valign = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 2 )
+
+[node name="CA" type="ColorRect" parent="."]
+material = SubResource( 4 )
+margin_left = -10.0
+margin_top = -8.0
+margin_right = 172.0
+margin_bottom = 100.0

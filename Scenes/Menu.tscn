@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/pong_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/Menu.gd" type="Script" id=2]
+[ext_resource path="res://Shaders/chromatic_aberration.tres" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/ca_strenght = 2.0
+
+[node name="Menu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Background" type="ColorRect" parent="."]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+margin_left = -10.0
+margin_top = -8.0
+margin_right = 172.0
+margin_bottom = 100.0
+color = Color( 0.0352941, 0.027451, 0.027451, 1 )
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+margin_left = 10.0
+margin_right = 150.0
+margin_bottom = 51.0
+theme = ExtResource( 1 )
+text = "Pong
+Godot Edition"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color( 0.941176, 0.937255, 0.956863, 1 )
+margin_left = 65.0
+margin_top = 60.0
+margin_right = 163.0
+margin_bottom = 140.0
+rect_scale = Vector2( 0.3, 0.3 )
+
+[node name="start_1p" type="Button" parent="VBoxContainer"]
+margin_right = 98.0
+margin_bottom = 24.0
+focus_neighbour_top = NodePath("../quit")
+focus_neighbour_bottom = NodePath("../start_2p")
+theme = ExtResource( 1 )
+text = "1 Player"
+
+[node name="start_2p" type="Button" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 98.0
+margin_bottom = 52.0
+theme = ExtResource( 1 )
+text = "2 Players"
+
+[node name="quit" type="Button" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 98.0
+margin_bottom = 80.0
+focus_neighbour_right = NodePath("../start_2p")
+focus_neighbour_bottom = NodePath("../start_1p")
+theme = ExtResource( 1 )
+text = "Quit"
+
+[node name="CA" type="ColorRect" parent="."]
+material = SubResource( 1 )
+margin_left = -10.0
+margin_top = -8.0
+margin_right = 172.0
+margin_bottom = 100.0
+
+[connection signal="pressed" from="VBoxContainer/start_1p" to="." method="_on_start_1p_pressed"]
+[connection signal="pressed" from="VBoxContainer/start_2p" to="." method="_on_start_2p_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]
